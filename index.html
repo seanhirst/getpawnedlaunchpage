@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetPawned - Coming Soon</title>
+    <style>
+        :root {
+            /* These colors will be updated based on the logo */
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --background-color: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            padding: 20px;
+        }
+        
+        .logo-container {
+            margin-bottom: 40px;
+            transform: translateY(-100vh);
+            animation: flyIn 1.5s ease-out forwards, bounce 0.5s ease-in-out 1.5s;
+        }
+        
+        .logo {
+            max-width: 300px;
+            height: auto;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 2s forwards;
+        }
+        
+        .coming-soon {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 2.5s forwards;
+        }
+        
+        @keyframes flyIn {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .coming-soon {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="logo.png" alt="GetPawned Logo" class="logo" id="logo">
+        </div>
+        <div class="tagline">for pawn owners by pawnowners and modern tech</div>
+        <div class="coming-soon">COMING SOON</div>
+    </div>
+
+    <script src="assets/color-extractor.js"></script>
+</body>
+</html>
