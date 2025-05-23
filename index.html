@@ -6,17 +6,17 @@
     <title>GetPawned - Coming Soon</title>
     <style>
         :root {
-            /* These colors will be updated based on the logo */
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --text-color: #333;
-            --background-color: #f8f9fa;
+            /* Colors based on the provided image */
+            --primary-color: #00a7c7; /* Teal blue from logo */
+            --secondary-color: #001e3c; /* Dark navy from logo */
+            --accent-color: #ffffff; /* White for contrast */
+            --text-color: #ffffff; /* White text for visibility on teal */
+            --background-color: #00a7c7; /* Teal background matching the logo */
         }
         
         body {
             font-family: 'Arial', sans-serif;
-            background-color: var(--background-color);
+            background: linear-gradient(135deg, var(--background-color) 0%, #008fb3 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -26,6 +26,18 @@
             height: 100vh;
             text-align: center;
             overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
         }
         
         .container {
@@ -40,8 +52,9 @@
         }
         
         .logo {
-            max-width: 300px;
+            max-width: 400px;
             height: auto;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
         }
         
         .tagline {
@@ -50,15 +63,22 @@
             margin-bottom: 20px;
             opacity: 0;
             animation: fadeIn 1s ease-in-out 2s forwards;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         
         .coming-soon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
             color: var(--accent-color);
             margin-top: 20px;
             opacity: 0;
             animation: fadeIn 1s ease-in-out 2.5s forwards;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         @keyframes flyIn {
@@ -91,14 +111,16 @@
         @media (max-width: 768px) {
             .tagline {
                 font-size: 1.2rem;
+                letter-spacing: 0.5px;
             }
             
             .coming-soon {
-                font-size: 2rem;
+                font-size: 2.5rem;
+                letter-spacing: 1px;
             }
             
             .logo {
-                max-width: 200px;
+                max-width: 280px;
             }
         }
     </style>
