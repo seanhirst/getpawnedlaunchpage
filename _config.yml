@@ -1,0 +1,18 @@
+title: GetPawned
+description: For pawn owners by pawnowners with modern technology
+baseurl: ""
+url: "https://getpawned.io"
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-feed
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
