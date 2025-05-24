@@ -79,8 +79,8 @@ function applyColorsToTheme(colors) {
     const bgColor = colors[0];
     root.style.setProperty('--text-color', calculateContrastColor(bgColor.r, bgColor.g, bgColor.b));
     
-    // Set the same color as the primary color for background
-    root.style.setProperty('--background-color', colors[0].hex);
+    // Don't override the background color as it's set to a specific value
+    // root.style.setProperty('--background-color', colors[0].hex);
 }
 
 // Initialize when the logo is loaded
