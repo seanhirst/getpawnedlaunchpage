@@ -150,10 +150,33 @@
             position: absolute;
             font-family: 'Orbitron', monospace;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            text-shadow: 0 0 5px var(--glow-color);
+            color: rgba(255, 255, 255, 0.6);
+            text-shadow: 0 0 8px var(--glow-color);
             animation: float 20s linear infinite;
             user-select: none;
+            z-index: -1;
+            font-weight: 500;
+        }
+        
+        /* Style pawn shop terms differently */
+        .particle:nth-child(even) {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(0, 231, 255, 0.7);
+        }
+        
+        /* Chess/pawn symbols styling */
+        .chess-symbol {
+            font-size: 18px !important;
+            color: rgba(255, 215, 0, 0.8) !important; /* Gold color */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5) !important;
+            animation-duration: 25s !important;
+        }
+        
+        /* Value symbols styling */
+        .value-symbol {
+            font-size: 16px !important;
+            color: rgba(50, 205, 50, 0.8) !important; /* Money green */
+            text-shadow: 0 0 10px rgba(50, 205, 50, 0.5) !important;
         }
         
         @keyframes zoomIn {
@@ -524,26 +547,47 @@
         // Create tech-themed particle effect
         document.addEventListener('DOMContentLoaded', function() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 60;
+            const particleCount = 80; // Increased for more visual interest
             
-            // Tech symbols array
-            const techSymbols = [
+            // Tech and pawn shop symbols/terms array
+            const symbols = [
+                // Tech elements
                 '0', '1',                           // Binary
                 '<', '>', '/', '{', '}', ';', '#',  // Code symbols
                 '+', '-', '*', '=', '&', '|', '^',  // Operators
-                '$', '@', '_', '~', '`',            // Special characters
-                '01', '10', '00', '11',             // Binary pairs
-                '404', '200', '500',                // HTTP codes
-                'API', 'SQL', 'DNS', 'SSL'          // Tech acronyms
+                '$', '@', '_', '~',                 // Special characters
+                '01', '10',                         // Binary pairs
+                'API', 'SQL', 'DNS',                // Tech acronyms
+                
+                // Pawn shop elements
+                '♔', '♕', '♖', '♗', '♘', '♙',      // Chess pieces (pawn symbols)
+                '$$$', '💰', '💎', '⌚',             // Value symbols
+                'PAWN', 'LOAN', 'CASH', 'GOLD',     // Pawn shop terms
+                'BUY', 'SELL', 'TRADE',             // Transaction terms
+                'JEWELRY', 'WATCH', 'COIN',         // Common pawn items
+                'APPRAISAL', 'VALUE', 'INTEREST',   // Pawn shop concepts
+                '30 DAYS', '90 DAYS', 'NO FEES',    // Loan terms
+                'INSTANT', 'QUICK CASH', 'SECURE'   // Pawn shop benefits
             ];
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // Set random tech symbol
-                const symbolIndex = Math.floor(Math.random() * techSymbols.length);
-                particle.textContent = techSymbols[symbolIndex];
+                // Set random symbol from our combined array
+                const symbolIndex = Math.floor(Math.random() * symbols.length);
+                const symbol = symbols[symbolIndex];
+                particle.textContent = symbol;
+                
+                // Add special class for chess/pawn symbols
+                if (['♔', '♕', '♖', '♗', '♘', '♙'].includes(symbol)) {
+                    particle.classList.add('chess-symbol');
+                }
+                
+                // Add special class for value symbols
+                if (['$$$', '💰', '💎', '⌚'].includes(symbol)) {
+                    particle.classList.add('value-symbol');
+                }
                 
                 // Random position
                 const posX = Math.random() * 100;
