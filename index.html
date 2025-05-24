@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GetPawned - Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Colors based on the provided image */
@@ -12,11 +15,19 @@
             --accent-color: #ffffff; /* White for contrast */
             --text-color: #ffffff; /* White text for visibility on teal */
             --background-color: #009DBF; /* Specific background color as requested */
+            --glow-color: #00e5ff; /* Bright cyan for glow effects */
+            --grid-color: rgba(0, 231, 255, 0.1); /* Grid lines color */
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            background: var(--background-color);
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, var(--background-color) 0%, #006a82 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -27,57 +38,135 @@
             text-align: center;
             overflow: hidden;
             position: relative;
+            color: var(--text-color);
         }
         
-        /* Removed the body::before element to eliminate the shaded appearance */
+        /* Grid background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+            animation: gridFade 2s ease-in-out forwards;
+            opacity: 0;
+        }
+        
+        /* Glow effect */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 229, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
         
         .container {
             max-width: 800px;
-            padding: 20px;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+            background: rgba(0, 157, 191, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .logo-container {
             margin-bottom: 40px;
             transform: scale(0.5);
-            animation: zoomIn 1.5s ease-out forwards, bounce 1s ease-in-out 1.5s 1 forwards;
+            animation: zoomIn 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards, 
+                       bounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s 1 forwards,
+                       glow 3s ease-in-out 2.5s infinite alternate;
+            position: relative;
         }
         
         .logo {
             max-width: 400px;
             height: auto;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.5));
         }
         
         .tagline {
             font-size: 1.5rem;
             color: var(--text-color);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             opacity: 0;
-            animation: fadeIn 1s ease-in-out 2s forwards;
+            animation: typeIn 2s steps(40, end) 2s forwards;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: 300;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tagline::after {
+            content: '|';
+            position: absolute;
+            right: -8px;
+            animation: blink 1s step-end infinite;
+            opacity: 0;
         }
         
         .coming-soon {
-            font-size: 3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
             font-weight: bold;
             color: var(--accent-color);
             margin-top: 20px;
             opacity: 0;
-            animation: fadeIn 1s ease-in-out 2.5s forwards;
+            animation: glitchIn 1s ease-in-out 3.5s forwards, 
+                       glitch 5s infinite 4.5s;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+            position: relative;
+        }
+        
+        /* Particle effect */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s linear infinite;
         }
         
         @keyframes zoomIn {
             0% {
                 transform: scale(0.5);
+                filter: blur(10px);
+            }
+            80% {
+                transform: scale(1.05);
+                filter: blur(0);
             }
             100% {
                 transform: scale(1);
+                filter: blur(0);
             }
         }
         
@@ -88,12 +177,96 @@
             50% {
                 transform: scale(1.1);
             }
+            75% {
+                transform: scale(0.95);
+            }
             100% {
                 transform: scale(1);
             }
         }
         
-        @keyframes fadeIn {
+        @keyframes glow {
+            0% {
+                filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.5));
+            }
+            100% {
+                filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.8));
+            }
+        }
+        
+        @keyframes typeIn {
+            0% {
+                width: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes blink {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes glitchIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                clip-path: inset(0 0 100% 0);
+            }
+            20% {
+                clip-path: inset(33% 0 66% 0);
+            }
+            40% {
+                clip-path: inset(66% 0 33% 0);
+            }
+            60% {
+                clip-path: inset(33% 0 66% 0);
+            }
+            80% {
+                clip-path: inset(10% 0 90% 0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                clip-path: inset(0 0 0 0);
+            }
+        }
+        
+        @keyframes glitch {
+            0% {
+                text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+                transform: translateX(0);
+            }
+            0.5% {
+                text-shadow: -2px 0 var(--glow-color), 2px 0 #ff00e1;
+                transform: translateX(2px);
+            }
+            1% {
+                text-shadow: 2px 0 var(--glow-color), -2px 0 #ff00e1;
+                transform: translateX(-2px);
+            }
+            1.5% {
+                text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+                transform: translateX(0);
+            }
+            99% {
+                text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+                transform: translateX(0);
+            }
+            100% {
+                text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes gridFade {
             0% {
                 opacity: 0;
             }
@@ -102,15 +275,36 @@
             }
         }
         
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
             .tagline {
                 font-size: 1.2rem;
-                letter-spacing: 0.5px;
+                letter-spacing: 1px;
             }
             
             .coming-soon {
                 font-size: 2.5rem;
-                letter-spacing: 1px;
+                letter-spacing: 2px;
             }
             
             .logo {
@@ -120,14 +314,52 @@
     </style>
 </head>
 <body>
+    <div class="particles" id="particles"></div>
     <div class="container">
         <div class="logo-container">
             <img src="logo.png" alt="GetPawned Logo" class="logo" id="logo">
         </div>
-        <div class="tagline">for pawn owners by pawnowners and modern tech</div>
+        <div class="tagline">for pawn owners by pawnowners with modern technology</div>
         <div class="coming-soon">COMING SOON</div>
     </div>
 
     <script src="assets/color-extractor.js"></script>
+    <script>
+        // Create particle effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100 + 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random opacity
+                const opacity = Math.random() * 0.5 + 0.3;
+                particle.style.opacity = opacity;
+                
+                // Random animation delay
+                const delay = Math.random() * 20;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Random animation duration
+                const duration = Math.random() * 10 + 15;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
 </body>
 </html>
