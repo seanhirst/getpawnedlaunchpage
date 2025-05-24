@@ -317,6 +317,89 @@
             animation: float 20s linear infinite, glitch 5s infinite 2s;
         }
         
+        /* Waitlist styles */
+        .waitlist-container {
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 4.5s forwards;
+        }
+        
+        .waitlist-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .waitlist-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .waitlist-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-color);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .waitlist-form input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+        
+        .waitlist-button {
+            padding: 12px 20px;
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+        }
+        
+        .waitlist-button:hover {
+            background: var(--glow-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            min-height: 24px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-message.success {
+            color: #00ff9d;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+        }
+        
+        .form-message.error {
+            color: #ff5e5e;
+            text-shadow: 0 0 5px rgba(255, 94, 94, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -335,6 +418,20 @@
             .logo {
                 max-width: 280px;
             }
+            
+            .waitlist-form {
+                flex-direction: column;
+            }
+            
+            .waitlist-form input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .waitlist-button {
+                border-radius: 4px;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -346,10 +443,84 @@
         </div>
         <div class="tagline">for pawn owners by pawnowners with modern technology</div>
         <div class="coming-soon">COMING SOON</div>
+        
+        <div class="waitlist-container">
+            <div class="waitlist-text">Join our waitlist to be the first to know when we launch</div>
+            <form id="waitlist-form" class="waitlist-form">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <button type="submit" class="waitlist-button">JOIN WAITLIST</button>
+            </form>
+            <div id="form-message" class="form-message"></div>
+        </div>
     </div>
 
     <script src="assets/color-extractor.js"></script>
     <script>
+        // Waitlist form submission handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const waitlistForm = document.getElementById('waitlist-form');
+            const formMessage = document.getElementById('form-message');
+            
+            if (waitlistForm) {
+                waitlistForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('email').value;
+                    
+                    // Show loading state
+                    const submitButton = waitlistForm.querySelector('button[type="submit"]');
+                    const originalButtonText = submitButton.textContent;
+                    submitButton.textContent = 'SENDING...';
+                    submitButton.disabled = true;
+                    
+                    // Since GitHub Pages doesn't support server-side code, we'll use a client-side approach
+                    // In a production environment, you would replace this with a real API call to a serverless function
+                    
+                    // Store the email in localStorage for demonstration
+                    try {
+                        // Get existing waitlist or create a new one
+                        const waitlist = JSON.parse(localStorage.getItem('getpawned_waitlist') || '[]');
+                        
+                        // Add the new email if it doesn't exist
+                        if (!waitlist.includes(email)) {
+                            waitlist.push(email);
+                            localStorage.setItem('getpawned_waitlist', JSON.stringify(waitlist));
+                        }
+                        
+                        // Simulate network delay
+                        setTimeout(() => {
+                            // Show success message
+                            formMessage.textContent = 'You\'re in! You\'ll be the first to know when we launch. 🚀';
+                            formMessage.className = 'form-message success';
+                            
+                            // Reset form
+                            waitlistForm.reset();
+                            
+                            // Log for demonstration (would be sent to server in production)
+                            console.log('Email submitted:', email);
+                            console.log('Current waitlist:', waitlist);
+                            
+                            // Reset button
+                            submitButton.textContent = originalButtonText;
+                            submitButton.disabled = false;
+                            
+                            // In a real implementation, this would trigger:
+                            // 1. Email to support@getpawned.io with the new signup
+                            // 2. Confirmation email to the user
+                        }, 1500);
+                    } catch (error) {
+                        console.error('Error:', error);
+                        formMessage.textContent = 'Something went wrong. Please try again.';
+                        formMessage.className = 'form-message error';
+                        
+                        // Reset button
+                        submitButton.textContent = originalButtonText;
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+        });
+        
         // Create tech-themed particle effect
         document.addEventListener('DOMContentLoaded', function() {
             const particlesContainer = document.getElementById('particles');
