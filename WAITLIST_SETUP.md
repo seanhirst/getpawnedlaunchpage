@@ -1,6 +1,8 @@
 # Waitlist Form Setup Guide
 
-The current implementation of the waitlist form on getpawned.io uses client-side storage (localStorage) for demonstration purposes. To fully implement the email collection and notification system, you'll need to set up a serverless function.
+Note: This guide is for reference only. The site now uses Formspree for form submissions (see FORMSPREE_SETUP.md).
+
+The previous implementation of the waitlist form on getpawned.io used client-side storage (localStorage) for demonstration purposes. To fully implement the email collection and notification system with a custom backend, you would need to set up a serverless function as described below.
 
 ## Current Implementation
 
