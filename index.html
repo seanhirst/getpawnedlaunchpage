@@ -469,8 +469,9 @@
         
         <div class="waitlist-container">
             <div class="waitlist-text">Join our waitlist to be the first to know when we launch</div>
-            <form id="waitlist-form" class="waitlist-form">
+            <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/support@getpawned.io" method="POST">
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <input type="hidden" name="_subject" value="New GetPawned Waitlist Signup">
                 <button type="submit" class="waitlist-button">JOIN WAITLIST</button>
             </form>
             <div id="form-message" class="form-message"></div>
@@ -479,67 +480,34 @@
 
     <script src="assets/color-extractor.js"></script>
     <script>
-        // Waitlist form submission handler
+        // Waitlist form submission handler with Formspree
         document.addEventListener('DOMContentLoaded', function() {
             const waitlistForm = document.getElementById('waitlist-form');
             const formMessage = document.getElementById('form-message');
             
             if (waitlistForm) {
                 waitlistForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const email = document.getElementById('email').value;
+                    // Don't prevent default - let the form submit to Formspree
                     
                     // Show loading state
                     const submitButton = waitlistForm.querySelector('button[type="submit"]');
-                    const originalButtonText = submitButton.textContent;
                     submitButton.textContent = 'SENDING...';
-                    submitButton.disabled = true;
                     
-                    // Since GitHub Pages doesn't support server-side code, we'll use a client-side approach
-                    // In a production environment, you would replace this with a real API call to a serverless function
-                    
-                    // Store the email in localStorage for demonstration
+                    // Store a copy in localStorage as backup
                     try {
-                        // Get existing waitlist or create a new one
+                        const email = document.getElementById('email').value;
                         const waitlist = JSON.parse(localStorage.getItem('getpawned_waitlist') || '[]');
                         
-                        // Add the new email if it doesn't exist
                         if (!waitlist.includes(email)) {
                             waitlist.push(email);
                             localStorage.setItem('getpawned_waitlist', JSON.stringify(waitlist));
                         }
-                        
-                        // Simulate network delay
-                        setTimeout(() => {
-                            // Show success message
-                            formMessage.textContent = 'You\'re in! You\'ll be the first to know when we launch. 🚀';
-                            formMessage.className = 'form-message success';
-                            
-                            // Reset form
-                            waitlistForm.reset();
-                            
-                            // Log for demonstration (would be sent to server in production)
-                            console.log('Email submitted:', email);
-                            console.log('Current waitlist:', waitlist);
-                            
-                            // Reset button
-                            submitButton.textContent = originalButtonText;
-                            submitButton.disabled = false;
-                            
-                            // In a real implementation, this would trigger:
-                            // 1. Email to support@getpawned.io with the new signup
-                            // 2. Confirmation email to the user
-                        }, 1500);
                     } catch (error) {
-                        console.error('Error:', error);
-                        formMessage.textContent = 'Something went wrong. Please try again.';
-                        formMessage.className = 'form-message error';
-                        
-                        // Reset button
-                        submitButton.textContent = originalButtonText;
-                        submitButton.disabled = false;
+                        console.error('Error storing in localStorage:', error);
                     }
+                    
+                    // The form will be submitted to Formspree and the page will redirect
+                    // Formspree will send an email to support@getpawned.io
                 });
             }
         });
