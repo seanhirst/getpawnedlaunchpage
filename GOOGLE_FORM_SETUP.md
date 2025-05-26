@@ -6,13 +6,14 @@ The website has been updated to use Google Forms for collecting waitlist emails.
 
 The integration has been completed with the following details:
 
-- **Form ID**: `FAIpQLSe1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ`
+- **Form ID**: `1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ`
 - **Email Field Entry ID**: `1291602047`
 - **Field Name in Form**: `entry.1291602047`
+- **Form Submission URL**: `https://docs.google.com/forms/d/1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ/formResponse`
 
 The entry ID was found by inspecting the form's HTML and looking for the input element with a name that starts with `entry.`. The code has been updated to use these values.
 
-**Important Note**: The form ID must include the `FAIpQLSe` prefix for Google Forms to work correctly.
+**Important Note**: The form ID should be used exactly as it appears in the form URL, without any additional prefixes.
 
 If you need to change the entry ID in the future (for example, if you create a new form), you can:
 

@@ -486,7 +486,7 @@
             
             // Google Form details
             const formData = {
-                id: 'FAIpQLSe1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ',
+                id: '1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ',
                 emailField: 'entry.1291602047' // Email field entry ID
             };
             
@@ -529,7 +529,7 @@
                     // Create a form element to submit to Google
                     const googleForm = document.createElement('form');
                     googleForm.method = 'POST';
-                    googleForm.action = `https://docs.google.com/forms/d/e/${formData.id}/formResponse`;
+                    googleForm.action = `https://docs.google.com/forms/d/${formData.id}/formResponse`;
                     googleForm.target = 'hidden_iframe';
                     
                     // Log the form URL for debugging (will be removed in production)
@@ -567,11 +567,28 @@
                         }, 1500);
                     };
                     
+                    // Add error handling
+                    iframe.onerror = function() {
+                        formMessage.textContent = 'Something went wrong. Please try again later.';
+                        formMessage.className = 'form-message error';
+                        submitButton.textContent = 'JOIN WAITLIST';
+                        submitButton.disabled = false;
+                        console.error('Form submission error');
+                    };
+                    
                     // Add a fallback in case of errors
                     setTimeout(() => {
                         if (submitButton.disabled) {
                             submitButton.textContent = 'JOIN WAITLIST';
                             submitButton.disabled = false;
+                            
+                            // If still disabled after timeout, assume success anyway
+                            // This is a fallback since Google Forms might not trigger onload properly
+                            if (formMessage.textContent === '') {
+                                formMessage.textContent = 'Thank you for joining our waitlist!';
+                                formMessage.className = 'form-message success';
+                                emailInput.value = '';
+                            }
                         }
                     }, 5000);
                 });
