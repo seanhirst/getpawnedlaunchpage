@@ -6,14 +6,14 @@ The website has been updated to use Google Forms for collecting waitlist emails.
 
 The integration has been completed with the following details:
 
-- **Form ID**: `1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ`
-- **Email Field Entry ID**: `1291602047`
-- **Field Name in Form**: `entry.1291602047`
-- **Form Submission URL**: `https://docs.google.com/forms/d/1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ/formResponse`
+- **Form ID**: `1FAIpQLSfaQ_QO1yl2TaB6uGoEhQe9-IKf8TXuPbWF84xD2M79M5oRSw`
+- **Email Field Name**: `emailAddress`
+- **Form Submission URL**: `https://docs.google.com/forms/d/e/1FAIpQLSfaQ_QO1yl2TaB6uGoEhQe9-IKf8TXuPbWF84xD2M79M5oRSw/formResponse`
+- **Form View URL**: `https://docs.google.com/forms/d/e/1FAIpQLSfaQ_QO1yl2TaB6uGoEhQe9-IKf8TXuPbWF84xD2M79M5oRSw/viewform`
 
-The entry ID was found by inspecting the form's HTML and looking for the input element with a name that starts with `entry.`. The code has been updated to use these values.
+The field name was identified as `emailAddress`, which is the standard field name for email fields in Google Forms. The code has been updated to use these values.
 
-**Important Note**: The form ID should be used exactly as it appears in the form URL, without any additional prefixes.
+**Important Note**: For Google Forms, the form ID in the URL includes the `FAIpQL` prefix, and the email field uses the standard `emailAddress` name rather than an entry ID.
 
 If you need to change the entry ID in the future (for example, if you create a new form), you can:
 

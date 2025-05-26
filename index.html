@@ -486,8 +486,8 @@
             
             // Google Form details
             const formData = {
-                id: '1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ',
-                emailField: 'entry.1291602047' // Email field entry ID
+                id: '1FAIpQLSfaQ_QO1yl2TaB6uGoEhQe9-IKf8TXuPbWF84xD2M79M5oRSw',
+                emailField: 'emailAddress' // Email field name
             };
             
             if (waitlistForm) {
@@ -529,7 +529,7 @@
                     // Create a form element to submit to Google
                     const googleForm = document.createElement('form');
                     googleForm.method = 'POST';
-                    googleForm.action = `https://docs.google.com/forms/d/${formData.id}/formResponse`;
+                    googleForm.action = `https://docs.google.com/forms/d/e/${formData.id}/formResponse`;
                     googleForm.target = 'hidden_iframe';
                     
                     // Log the form URL for debugging (will be removed in production)
