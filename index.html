@@ -484,9 +484,9 @@
             const waitlistForm = document.getElementById('waitlist-form');
             const formMessage = document.getElementById('form-message');
             
-            // Obfuscated Google Form details
+            // Google Form details
             const formData = {
-                id: atob('MUZBSXBRTFNlMVNuMkFVWWNfUzloXzlzZ0QwUWJSTlFsYXZxR0E3TG9Qa1Z3X2pON3hzaVE='),
+                id: 'FAIpQLSe1Sn2AUYc_S9h_9sgD0QbRNQlavqGA7LoPkVw_jN7xsiQ',
                 emailField: 'entry.1291602047' // Email field entry ID
             };
             
@@ -532,6 +532,9 @@
                     googleForm.action = `https://docs.google.com/forms/d/e/${formData.id}/formResponse`;
                     googleForm.target = 'hidden_iframe';
                     
+                    // Log the form URL for debugging (will be removed in production)
+                    console.log('Submitting to:', googleForm.action);
+                    
                     // Add the email field
                     const emailField = document.createElement('input');
                     emailField.type = 'text';
@@ -543,18 +546,34 @@
                     document.body.appendChild(googleForm);
                     googleForm.submit();
                     
-                    // Show success message after a short delay
+                    // Add event listeners to detect success or failure
+                    iframe.onload = function() {
+                        // Check if the form submission was successful
+                        // Note: This is a best-effort approach as Google Forms doesn't provide clear success/failure signals
+                        setTimeout(() => {
+                            formMessage.textContent = 'Thank you for joining our waitlist!';
+                            formMessage.className = 'form-message success';
+                            submitButton.textContent = 'JOIN WAITLIST';
+                            submitButton.disabled = false;
+                            emailInput.value = '';
+                            
+                            // Clean up the form and iframe
+                            try {
+                                document.body.removeChild(googleForm);
+                                document.body.removeChild(iframe);
+                            } catch (e) {
+                                console.error('Cleanup error:', e);
+                            }
+                        }, 1500);
+                    };
+                    
+                    // Add a fallback in case of errors
                     setTimeout(() => {
-                        formMessage.textContent = 'Thank you for joining our waitlist!';
-                        formMessage.className = 'form-message success';
-                        submitButton.textContent = 'JOIN WAITLIST';
-                        submitButton.disabled = false;
-                        emailInput.value = '';
-                        
-                        // Clean up the form and iframe
-                        document.body.removeChild(googleForm);
-                        document.body.removeChild(iframe);
-                    }, 1500);
+                        if (submitButton.disabled) {
+                            submitButton.textContent = 'JOIN WAITLIST';
+                            submitButton.disabled = false;
+                        }
+                    }, 5000);
                 });
             }
         });
