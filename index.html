@@ -469,9 +469,8 @@
         
         <div class="waitlist-container">
             <div class="waitlist-text">Join our waitlist to be the first to know when we launch</div>
-            <form id="waitlist-form" class="waitlist-form" action="https://formspree.io/f/support@getpawned.io" method="POST">
+            <form id="waitlist-form" class="waitlist-form">
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <input type="hidden" name="_subject" value="New GetPawned Waitlist Signup">
                 <button type="submit" class="waitlist-button">JOIN WAITLIST</button>
             </form>
             <div id="form-message" class="form-message"></div>
@@ -480,22 +479,37 @@
 
     <script src="assets/color-extractor.js"></script>
     <script>
-        // Waitlist form submission handler with Formspree
+        // Google Form integration - URL is obfuscated for security
         document.addEventListener('DOMContentLoaded', function() {
             const waitlistForm = document.getElementById('waitlist-form');
             const formMessage = document.getElementById('form-message');
             
+            // Obfuscated Google Form details
+            const formData = {
+                id: atob('MUZBSXBRTFNlMVNuMkFVWWNfUzloXzlzZ0QwUWJSTlFsYXZxR0E3TG9Qa1Z3X2pON3hzaVE='),
+                emailField: 'entry.1291602047' // Email field entry ID
+            };
+            
             if (waitlistForm) {
                 waitlistForm.addEventListener('submit', function(e) {
-                    // Don't prevent default - let the form submit to Formspree
+                    e.preventDefault(); // Prevent default form submission
                     
                     // Show loading state
                     const submitButton = waitlistForm.querySelector('button[type="submit"]');
+                    const emailInput = document.getElementById('email');
+                    const email = emailInput.value;
+                    
+                    if (!email || !email.includes('@')) {
+                        formMessage.textContent = 'Please enter a valid email address';
+                        formMessage.className = 'form-message error';
+                        return;
+                    }
+                    
                     submitButton.textContent = 'SENDING...';
+                    submitButton.disabled = true;
                     
                     // Store a copy in localStorage as backup
                     try {
-                        const email = document.getElementById('email').value;
                         const waitlist = JSON.parse(localStorage.getItem('getpawned_waitlist') || '[]');
                         
                         if (!waitlist.includes(email)) {
@@ -506,8 +520,41 @@
                         console.error('Error storing in localStorage:', error);
                     }
                     
-                    // The form will be submitted to Formspree and the page will redirect
-                    // Formspree will send an email to support@getpawned.io
+                    // Create a hidden iframe to submit the form without page navigation
+                    const iframe = document.createElement('iframe');
+                    iframe.name = 'hidden_iframe';
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                    
+                    // Create a form element to submit to Google
+                    const googleForm = document.createElement('form');
+                    googleForm.method = 'POST';
+                    googleForm.action = `https://docs.google.com/forms/d/e/${formData.id}/formResponse`;
+                    googleForm.target = 'hidden_iframe';
+                    
+                    // Add the email field
+                    const emailField = document.createElement('input');
+                    emailField.type = 'text';
+                    emailField.name = formData.emailField;
+                    emailField.value = email;
+                    googleForm.appendChild(emailField);
+                    
+                    // Append the form, submit it, and clean up
+                    document.body.appendChild(googleForm);
+                    googleForm.submit();
+                    
+                    // Show success message after a short delay
+                    setTimeout(() => {
+                        formMessage.textContent = 'Thank you for joining our waitlist!';
+                        formMessage.className = 'form-message success';
+                        submitButton.textContent = 'JOIN WAITLIST';
+                        submitButton.disabled = false;
+                        emailInput.value = '';
+                        
+                        // Clean up the form and iframe
+                        document.body.removeChild(googleForm);
+                        document.body.removeChild(iframe);
+                    }, 1500);
                 });
             }
         });
