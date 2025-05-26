@@ -474,7 +474,7 @@
         <div class="logo-container">
             <img src="logo.png" alt="GetPawned Logo" class="logo" id="logo">
         </div>
-        <div class="tagline">for pawn owners by pawn owners with modern technology</div>
+        <div class="tagline">modern solutions for a traditional industry</div>
         <div class="coming-soon">COMING SOON</div>
         
         <div class="waitlist-container">
@@ -494,10 +494,10 @@
             const waitlistForm = document.getElementById('waitlist-form');
             const formMessage = document.getElementById('form-message');
             
-            // Google Form details
+            // Form details
             const formData = {
-                id: '1FAIpQLSfaQ_QO1yl2TaB6uGoEhQe9-IKf8TXuPbWF84xD2M79M5oRSw',
-                emailField: 'emailAddress' // Email field name
+                id: atob('MUZBSXBRTFNmYVFfUU8xeWwyVGFCNnVHb0VoUWU5LUlLZjhUWHVQYldGODR4RDJNNzlNNW9SU3c='),
+                emailField: 'emailAddress' // Field name
             };
             
             if (waitlistForm) {
@@ -542,8 +542,8 @@
                     googleForm.action = `https://docs.google.com/forms/d/e/${formData.id}/formResponse`;
                     googleForm.target = 'hidden_iframe';
                     
-                    // Log the form URL for debugging (will be removed in production)
-                    console.log('Submitting to:', googleForm.action);
+                    // Log submission
+                    console.log('Processing...');
                     
                     // Add the email field
                     const emailField = document.createElement('input');
